@@ -1,0 +1,167 @@
+/* Header for agents section */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Search bar styling */
+.searchBar {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-right: 20px;
+    width: 200px;
+}
+
+/* Container for the whole agent section */
+.agentsGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start; /* Aligns the cards to the left */
+    margin-top: 20px;
+}
+
+/* Card styles for each agent */
+.agentCard {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Card title (agent name) */
+.agentCard h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color:rgb(0, 0, 0);
+}
+
+/* Email text styling */
+.agentCard p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Action buttons container */
+.actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Button styles */
+.button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: white;
+}
+
+/* Update button styling */
+.updateButton {
+    background-color: #28a745;
+    transition: background-color 0.3s ease;
+}
+
+.updateButton:hover {
+    background-color: #218838;
+}
+
+/* Delete button styling */
+.deleteButton {
+    background-color: #dc3545;
+    transition: background-color 0.3s ease;
+}
+
+.deleteButton:hover {
+    background-color: #c82333;
+}
+
+/* Add Agent button styling */
+.addAgentButton {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    float: right; /* Aligns the button to the right */
+}
+
+.addAgentButton:hover {
+    background-color: #0056b3;
+}
+
+/* Modal form container */
+.add-agent-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    z-index: 1000;
+    width: 400px;
+}
+
+/* Input styles for the form */
+.add-agent-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Submit and Cancel button styles inside the form */
+.add-agent-form button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-right: 10px;
+}
+
+/* Submit button inside the form */
+.add-agent-form button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+}
+
+.add-agent-form button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+/* Cancel button inside the form */
+.add-agent-form button[type="button"] {
+    background-color: #dc3545;
+    color: white;
+}
+
+.add-agent-form button[type="button"]:hover {
+    background-color: #c82333;
+}
+
+/* General text alignment for the modal header */
+.add-agent-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Flex container for the form buttons */
+.formActions {
+    display: flex;
+    justify-content: space-between;
+}
