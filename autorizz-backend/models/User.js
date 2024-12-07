@@ -23,6 +23,11 @@ const UserSchema = new mongoose.Schema({
         default: 'User', // Default role can be 'User' or 'Agent', depending on the context
         enum: ['User', 'Admin', 'Agent'], // Restrict role values
     },
+    isVerified: { type: Boolean, default: false },
+    otp: { type: String },
+    otpExpiresAt: { type: Date },
+    otpAttempts: { type: Number, default: 0 }, // To limit OTP requests
+
 });
 
 module.exports = mongoose.model('User', UserSchema);

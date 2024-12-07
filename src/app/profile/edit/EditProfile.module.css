@@ -1,59 +1,82 @@
-/* EditProfile.module.css */
-
-.profileContainer {
+/* Centered Modal Layout */
+.editContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #333; /* Black background */
+    background-color: #333;
+    color: white;
 }
 
-.profileCard {
+.editCard {
     background-color: #2c2c2c;
-    border-radius: 12px;
     padding: 40px;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
     width: 400px;
+}
+
+.editCard h2 {
     text-align: center;
-    color: white;
-}
-
-.h2 {
     margin-bottom: 20px;
-    font-size: 24px;
 }
 
-.formGroup {
-    margin-bottom: 15px;
+/* Form Styling */
+.editForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.label {
-    display: block;
+.editForm label {
+    display: flex;
+    flex-direction: column;
     font-size: 14px;
-    color: #fff;
-    margin-bottom: 5px;
 }
 
-.input,
-.select {
-    width: 100%;
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.button {
-    width: 100%;
+.editForm input,
+.editForm select {
     padding: 10px;
-    background-color: #4CAF50;
-    color: white;
+    border-radius: 5px;
     border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    background-color: #444;
+    color: white;
+}
+
+.readOnlyInput {
+    background-color: #555;
+    cursor: not-allowed;
+}
+
+/* Action Buttons */
+.actionButtons {
+    display: flex;
+    justify-content: space-between;
     margin-top: 20px;
 }
 
-.button:hover {
+.saveButton {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.saveButton:hover {
     background-color: #45a049;
+}
+
+.cancelButton {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancelButton:hover {
+    background-color: #d32f2f;
 }

@@ -3,12 +3,32 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import styles from './Auth.module.css';
 import Link from 'next/link';
+import { FaEye, FaEyeSlash, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { useRouter } from 'next/navigation'; // Correct import
 
 const Register = () => {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [passwordValid, setPasswordValid] = useState({
+        length: false,
+        capital: false,
+        number: false,
+        special: false,
+    });
+
+    const router = useRouter(); // Initialize router
+
+    const validatePassword = (password) => {
+        setPasswordValid({
+            length: password.length >= 8,
+            capital: /[A-Z]/.test(password),
+            number: /[0-9]/.test(password),
+            special: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+        });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -16,6 +36,8 @@ const Register = () => {
             toast.error("Please fill in all fields");
         } else if (password !== confirmPassword) {
             toast.error("Passwords do not match");
+        } else if (!Object.values(passwordValid).every(Boolean)) {
+            toast.error("Password does not meet the required criteria");
         } else {
             try {
                 const res = await fetch('http://localhost:5000/api/auth/register', {
@@ -29,8 +51,9 @@ const Register = () => {
                 const data = await res.json();
                 if (res.ok) {
                     toast.success("Registration successful!");
-                    // Redirect to login page after successful registration
-                    window.location.href = '/login';
+                    console.log('Redirecting to verify-otp...');
+                    localStorage.setItem('email', email); // Save email for OTP verification
+                    router.push('/verify-otp'); // Redirect to OTP page
                 } else {
                     toast.error(data.error || "Registration failed");
                 }
@@ -69,19 +92,83 @@ const Register = () => {
                         </label>
                         <label>
                             <span>Password</span>
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
+                            <div className={styles.passwordField}>
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    value={password}
+                                    onChange={(e) => {
+                                        setPassword(e.target.value);
+                                        validatePassword(e.target.value);
+                                    }}
+                                />
+                                <span
+                                    className={styles.eyeIcon}
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                </span>
+                            </div>
+                            <div className={styles.passwordCriteria}>
+                                <p>
+                                    {passwordValid.length ? (
+                                        <FaCheckCircle className={styles.validIcon} />
+                                    ) : (
+                                        <FaTimesCircle className={styles.invalidIcon} />
+                                    )}
+                                    At least 8 characters
+                                </p>
+                                <p>
+                                    {passwordValid.capital ? (
+                                        <FaCheckCircle className={styles.validIcon} />
+                                    ) : (
+                                        <FaTimesCircle className={styles.invalidIcon} />
+                                    )}
+                                    At least 1 uppercase letter
+                                </p>
+                                <p>
+                                    {passwordValid.number ? (
+                                        <FaCheckCircle className={styles.validIcon} />
+                                    ) : (
+                                        <FaTimesCircle className={styles.invalidIcon} />
+                                    )}
+                                    At least 1 number
+                                </p>
+                                <p>
+                                    {passwordValid.special ? (
+                                        <FaCheckCircle className={styles.validIcon} />
+                                    ) : (
+                                        <FaTimesCircle className={styles.invalidIcon} />
+                                    )}
+                                    At least 1 special character
+                                </p>
+                            </div>
                         </label>
                         <label>
                             <span>Confirm Password</span>
-                            <input
-                                type="password"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                            />
+                            <div className={styles.passwordField}>
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                />
+                                <span
+                                    className={styles.eyeIcon}
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                </span>
+                            </div>
+                            <p
+                                className={
+                                    password === confirmPassword && confirmPassword
+                                        ? styles.match
+                                        : styles.noMatch
+                                }
+                            >
+                                {password === confirmPassword && confirmPassword
+                                    ? "Passwords match"
+                                    : "Passwords do not match"}
+                            </p>
                         </label>
                         <button type="submit">Register</button>
                     </form>

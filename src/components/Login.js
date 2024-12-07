@@ -33,12 +33,23 @@ const Login = () => {
 
                     // Save JWT token and redirect user to profile page
                     localStorage.setItem('token', data.token);
+                    localStorage.setItem('role', data.role);
 
                     // Also log what is saved to localStorage
                     console.log('Token saved in localStorage:', localStorage.getItem('token'));
+                    if (data.role === 'Admin') {
+                        // Admins bypass OTP verification
+                        toast.success("Welcome Admin!");
+                        router.push('/');
+                    }
 
                     toast.success("Login successful!");
                     router.push('/');
+                } else if (res.status === 403) {
+                    // Email not verified
+                    toast.error(data.error);
+                    localStorage.setItem('email', email); // Store email for verification
+                    router.push('/verify-otp');
                 } else {
                     toast.error(data.error || "Login failed");
                 }
