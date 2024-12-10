@@ -40,8 +40,9 @@ const Navbar = () => {
     return (
         <div className={styles.navbar}>
             <div className={styles.logo}>
-                <img src="/logo.png" alt="Autorizz Logo" />
-                <Link href="/">Autorizz</Link>
+                <Link href="/">
+                    <img src="/logo.png" alt="Autorizz Logo" style={{ cursor: 'pointer' }} />
+                </Link>
             </div>
 
             <div className={styles.links}>

@@ -16,8 +16,9 @@
 }
 
 .logo img {
-  height: 40px;
-  margin-right: 10px;
+  height: 30px;
+  margin-right: 5px;
+  width: 170px;
 }
 
 .logo span {
@@ -26,7 +27,7 @@
 }
 
 .links a {
-  margin: 0 15px;
+  margin: 0 18px;
   color: white;
   text-decoration: none;
   font-size: 18px;

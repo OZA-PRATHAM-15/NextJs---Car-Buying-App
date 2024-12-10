@@ -65,6 +65,14 @@ router.delete('/agents/:id', async (req, res) => {
         res.status(500).json({ error: 'Failed to delete agent' });
     }
 });
+router.get('/users', async (req, res) => {
+    try {
+        const agents = await User.find({ role: 'User' });
+        res.json(agents);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch users' });
+    }
+});
 
 
 module.exports = router;

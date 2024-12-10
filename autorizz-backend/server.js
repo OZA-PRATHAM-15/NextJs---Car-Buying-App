@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const carRoutes = require('./routes/carRoutes');
+
 
 dotenv.config();
 
@@ -20,7 +20,8 @@ mongoose.connect(process.env.MONGODB_URI,)
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/admin', require('./routes/admin'));
-app.use('/api', carRoutes);// <--- Add the admin routes
+app.use('/api/cars', require('./routes/carRoutes'));
+
 
 // Start the server
 app.listen(PORT, () => {
