@@ -21,6 +21,7 @@ mongoose.connect(process.env.MONGODB_URI,)
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/admin', require('./routes/admin'));
 app.use('/api/cars', require('./routes/carRoutes'));
+app.use('/api/analytics', require('./routes/analytics'));
 
 
 // Start the server
