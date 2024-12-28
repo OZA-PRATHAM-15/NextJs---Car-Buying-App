@@ -5,7 +5,8 @@ import DashboardLayout from '@/components/DashboardLayout';
 import OrdersList from '@/components/OrdersList';
 import ManageStock from '@/components/ManageStocks';
 import AgentList from '@/components/AgentList';
-import ManageUsers from '@/components/ManageUsers'; // Add other necessary imports
+import ManageUsers from '@/components/ManageUsers';
+import ManageAnalytics from '@/components/ManageAnalytics'; // Add other necessary imports
 
 const AdminPage = () => {
     const [selectedSection, setSelectedSection] = useState('orders');  // Default to 'orders'
@@ -21,6 +22,8 @@ const AdminPage = () => {
                 return <AgentList />;
             case 'manage-users':
                 return <ManageUsers />;
+            case 'analytics':
+                return <ManageAnalytics />;
             default:
                 return <OrdersList />;
         }

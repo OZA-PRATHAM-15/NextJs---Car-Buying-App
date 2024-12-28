@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { FaSearch } from 'react-icons/fa';
 import { sendFilterAnalytics } from '@/components/analytics';
 
-const SedanPage = () => {
+const SportsPage = () => {
     const [cars, setCars] = useState([]);
     const [filters, setFilters] = useState({
         search: '',
@@ -214,4 +214,4 @@ const dividerAboveTitleStyle = {
     border: 'none',
 };
 
-export default SedanPage;
+export default SportsPage;

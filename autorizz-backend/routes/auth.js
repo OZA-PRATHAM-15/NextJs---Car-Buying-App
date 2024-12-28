@@ -5,9 +5,13 @@ const User = require('../models/User'); // Assuming we have a User model
 const router = express.Router();
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const { authenticateUser } = require('../middlewares/authenticateUser'); // Adjust path as necessary
+
+
 
 // JWT_SECRET: Fetch it from environment or fallback (but better to use only env in production)
 const JWT_SECRET = process.env.JWT_SECRET || 'your_hardcoded_jwt_secret_key';
+
 
 // Register route
 router.post('/register', async (req, res) => {
@@ -60,8 +64,11 @@ router.post('/login', async (req, res) => {
         }
 
         // Create and send JWT token with role included
-        const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, {
-            expiresIn: '1h', // Token expires in 1 hour
+        const token = jwt.sign({
+            userId: user._id, role: user.role, email: user.email,
+            name: user.name,
+        }, JWT_SECRET, {
+            expiresIn: '20h', // Token expires in 1 hour
         });
 
         res.status(200).json({ token });
@@ -71,35 +78,27 @@ router.post('/login', async (req, res) => {
     }
 });
 // Profile route
-router.get('/profile', async (req, res) => {
-    const token = req.headers.authorization?.split(' ')[1];
-    //console.log('Received token on backend:', token); // Log the received token
-
-    if (!token) {
-        return res.status(401).json({ error: 'Unauthorized: No token provided' });
-    }
-
+router.get('/profile', authenticateUser, async (req, res) => {
     try {
-        const decoded = jwt.verify(token, JWT_SECRET);
-        // console.log('Decoded token:', decoded); // Log the decoded token
+        const { userId, email, name } = req.user;
 
-        const user = await User.findById(decoded.userId);
+        const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
 
         res.json({
             id: user._id,
-            name: user.name,
-            email: user.email,
+            name: name || user.name,
+            email: email || user.email,
             phoneNumber: user.phoneNumber || '',
             address: user.address || '',
             dateOfBirth: user.dateOfBirth || '',
             gender: user.gender || ''
         });
     } catch (error) {
-        console.error('Error verifying token:', error.message); // Log the error
-        return res.status(403).json({ error: 'Invalid token' });
+        console.error('Error in /profile route:', error.message);
+        return res.status(500).json({ error: 'Server error' });
     }
 });
 
@@ -246,4 +245,10 @@ router.post('/verify-otp', async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
+
+
+module.exports = {
+    authenticateUser,
+    roleCheck, // Existing middleware for role-based access
+};
 module.exports = router;

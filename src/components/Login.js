@@ -13,50 +13,55 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Ensure email and password are provided
         if (!email || !password) {
             toast.error("Please fill in all fields");
-        } else {
-            try {
-                const res = await fetch('http://localhost:5000/api/auth/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email, password }),
-                });
+            return;
+        }
 
-                const data = await res.json();
+        try {
+            // Send login request
+            const res = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
 
-                if (res.ok) {
-                    // Log the token to see if it's correctly received
-                    console.log('Received JWT Token:', data.token);
+            const data = await res.json();
 
-                    // Save JWT token and redirect user to profile page
-                    localStorage.setItem('token', data.token);
-                    localStorage.setItem('role', data.role);
+            if (res.ok) {
+                console.log('Received JWT Token:', data.token);
 
-                    // Also log what is saved to localStorage
-                    console.log('Token saved in localStorage:', localStorage.getItem('token'));
-                    if (data.role === 'Admin') {
-                        // Admins bypass OTP verification
-                        toast.success("Welcome Admin!");
-                        router.push('/');
-                    }
+                // Save token and user role in localStorage
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('role', data.role);
 
+                console.log('Token saved in localStorage:', localStorage.getItem('token'));
+
+                if (data.role === 'Admin') {
+                    // Admins are redirected to the dashboard
+                    toast.success("Welcome Admin!");
+                    router.push('/'); // Update this route as needed
+                } else {
+                    // Redirect to user dashboard
                     toast.success("Login successful!");
                     router.push('/');
-                } else if (res.status === 403) {
-                    // Email not verified
-                    toast.error(data.error);
-                    localStorage.setItem('email', email); // Store email for verification
-                    router.push('/verify-otp');
-                } else {
-                    toast.error(data.error || "Login failed");
                 }
-            } catch (error) {
-                console.error('Error during login:', error);
-                toast.error("Something went wrong. Please try again.");
+            } else if (res.status === 403) {
+                // Handle unverified email
+                toast.error(data.error);
+                localStorage.setItem('email', email); // Save email for OTP verification
+                router.push('/verify-otp');
+            } else {
+                // General error handling
+                toast.error(data.error || "Login failed");
             }
+        } catch (error) {
+            console.error('Error during login:', error);
+            toast.error("Something went wrong. Please try again.");
         }
     };
 
@@ -77,6 +82,7 @@ const Login = () => {
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                required
                             />
                         </label>
                         <label>
@@ -85,12 +91,17 @@ const Login = () => {
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
+                                required
                             />
                         </label>
                         <button type="submit">Login</button>
                     </form>
-                    <p>Don't have an account? <Link href="/register">Register</Link></p>
-                    <p>Back to <Link href="/">Frontseat</Link></p>
+                    <p>
+                        Don't have an account? <Link href="/register">Register</Link>
+                    </p>
+                    <p>
+                        Back to <Link href="/">Frontseat</Link>
+                    </p>
                 </div>
             </div>
         </div>

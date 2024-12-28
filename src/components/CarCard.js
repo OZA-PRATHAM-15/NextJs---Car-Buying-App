@@ -12,13 +12,13 @@ import {
     FaCarSide,
 } from 'react-icons/fa';
 
-const CarCard = ({ car }) => {
+const CarCard = ({ car, showDetails = true, showFuelTag = true }) => {
     const [hoverTimeout, setHoverTimeout] = useState(null);
 
     const handleMouseEnter = () => {
         const timeout = setTimeout(() => {
             sendHoverAnalytics(car._id);
-        }, 6000);
+        }, 6000); // Sends hover analytics after 6 seconds
         setHoverTimeout(timeout);
     };
 
@@ -38,14 +38,13 @@ const CarCard = ({ car }) => {
         }
     };
 
-    // Function to map features to icons
     const getFeatureIcon = (feature) => {
         if (feature.toLowerCase().includes('leather')) return <FaCouch style={featureIconStyle} />;
         if (feature.toLowerCase().includes('sunroof')) return <FaSun style={featureIconStyle} />;
         if (feature.toLowerCase().includes('bluetooth')) return <FaBluetooth style={featureIconStyle} />;
         if (feature.toLowerCase().includes('cruise')) return <FaCarSide style={featureIconStyle} />;
         if (feature.toLowerCase().includes('monitoring')) return <FaWrench style={featureIconStyle} />;
-        return <FaCar style={featureIconStyle} />; // Default fallback icon
+        return <FaCar style={featureIconStyle} />;
     };
 
     return (
@@ -54,9 +53,16 @@ const CarCard = ({ car }) => {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
-            {/* Image Blending Directly into Card */}
-            <div style={{ ...imageStyle, backgroundImage: `url(${car.image})` }}>
-                <span style={fuelTagStyle}>{car.specifications?.fuel_type || 'N/A'}</span>
+            {/* Image Section */}
+            <div style={{ position: 'relative', overflow: 'hidden' }}>
+                <img
+                    src={car.image}
+                    alt={car.name}
+                    style={{ ...imageStyle, filter: 'brightness(0.9) contrast(1.1)' }}
+                />
+                {showFuelTag && (
+                    <span style={fuelTagStyle}>{car.specifications?.fuel_type || 'N/A'}</span>
+                )}
             </div>
 
             {/* Content Section */}
@@ -65,44 +71,37 @@ const CarCard = ({ car }) => {
                 <p style={priceStyle}>From ${car.price}</p>
                 <p style={descriptionStyle}>{car.description}</p>
 
-                {/* Specifications Heading */}
-                <h4 style={sectionHeadingStyle}>Specifications</h4>
-                <div style={specificationsStyle}>
-                    <div style={specStyle}>
-                        <FaCar style={iconStyle} />
-                        <div>
-                            <strong>{car.specifications?.engine}</strong>
-                            <p style={specTextStyle}>Engine</p>
+                {/* Conditionally Render Specifications */}
+                {showDetails && (
+                    <>
+                        <h4 style={sectionHeadingStyle}>Specifications</h4>
+                        <div style={specificationsStyle}>
+                            <div style={specStyle}>
+                                <FaCar style={iconStyle} />
+                                <span>{car.specifications?.engine}</span>
+                            </div>
+                            <div style={specStyle}>
+                                <FaTachometerAlt style={iconStyle} />
+                                <span>{car.specifications?.horsepower} PS</span>
+                            </div>
+                            <div style={specStyle}>
+                                <FaCogs style={iconStyle} />
+                                <span>{car.specifications?.transmission}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div style={specStyle}>
-                        <FaTachometerAlt style={iconStyle} />
-                        <div>
-                            <strong>{car.specifications?.horsepower} PS</strong>
-                            <p style={specTextStyle}>Power</p>
-                        </div>
-                    </div>
-                    <div style={specStyle}>
-                        <FaCogs style={iconStyle} />
-                        <div>
-                            <strong>{car.specifications?.transmission}</strong>
-                            <p style={specTextStyle}>Transmission</p>
-                        </div>
-                    </div>
-                </div>
 
-                {/* Features Heading */}
-                <h4 style={sectionHeadingStyle}>Features</h4>
-                <div style={featuresStyle}>
-                    {car.features?.slice(0, 3).map((feature, index) => (
-                        <div key={index} style={featureItemStyle}>
-                            {getFeatureIcon(feature)}
-                            {feature}
+                        <h4 style={sectionHeadingStyle}>Features</h4>
+                        <div style={featuresStyle}>
+                            {car.features?.slice(0, 3).map((feature, index) => (
+                                <div key={index} style={featureItemStyle}>
+                                    {getFeatureIcon(feature)}
+                                    {feature}
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
+                    </>
+                )}
 
-                {/* View Details Button */}
                 <button style={detailsButtonStyle}>
                     <FaEye style={{ marginRight: '8px' }} />
                     View Details
@@ -117,74 +116,59 @@ const carCardStyle = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    width: '370px',
-    height: '600px',
-    margin: '20px auto',
+    width: '350px',
+    //height: '600px',
+    margin: '0px auto',
     borderRadius: '10px',
     background: 'linear-gradient(to bottom, #1a1a1a, #0f0f0f)',
     color: '#fff',
     boxShadow: '0 8px 20px rgba(0, 0, 0, 0.6)',
-    overflow: 'hidden',
     transition: 'transform 0.3s ease-in-out',
+    overflow: 'hidden',
     cursor: 'pointer',
 };
 
 const imageStyle = {
-    position: 'relative',
     width: '100%',
-    height: '300px',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    filter: 'brightness(1.2) contrast(1.1)',
+    height: '200px',
+    objectFit: 'cover',
+    display: 'block',
 };
 
 const fuelTagStyle = {
     position: 'absolute',
-    top: '10px',
-    left: '10px',
+    top: '8px',
+    left: '8px',
     backgroundColor: '#fff',
     color: '#000',
-    fontSize: '12px',
-    fontWeight: 'bold',
-    padding: '5px 10px',
+    fontSize: '10px',
+    fontWeight: '600',
+    padding: '4px 8px',
     borderRadius: '5px',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+    zIndex: '10',
 };
 
-const contentStyle = {
-    padding: '20px',
-};
+const contentStyle = { padding: '15px' };
 
-const carTitleStyle = {
-    fontSize: '1.5rem',
-    fontWeight: '700',
-    marginBottom: '5px',
-};
+const carTitleStyle = { fontSize: '1.3rem', fontWeight: '700', marginBottom: '5px', marginTop: '0px' };
 
-const priceStyle = {
-    fontSize: '1.1rem',
-    color: '#ccc',
-    marginBottom: '10px',
-};
+const priceStyle = { fontSize: '1.1rem', color: '#ccc', marginBottom: '10px' };
 
-const descriptionStyle = {
-    fontSize: '0.9rem',
-    color: '#bbb',
-    marginBottom: '15px',
-};
+const descriptionStyle = { fontSize: '0.9rem', color: '#bbb', marginBottom: '10px' };
 
 const sectionHeadingStyle = {
     fontSize: '1rem',
     fontWeight: '600',
-    color: '#fff',
-    marginBottom: '10px',
     borderBottom: '1px solid #444',
+    marginBottom: '10px',
     paddingBottom: '5px',
 };
 
 const specificationsStyle = {
-    display: 'flex',
-    justifyContent: 'space-around',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: '8px',
     marginBottom: '15px',
 };
 
@@ -192,40 +176,29 @@ const specStyle = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    textAlign: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#222',
+    borderRadius: '8px',
+    padding: '10px 5px',
+    height: '65px',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
 };
 
-const specTextStyle = {
-    margin: '3px 0',
-    fontSize: '0.85rem',
-    color: '#aaa',
-};
+const iconStyle = { fontSize: '1.5rem', marginBottom: '5px', color: '#FFFFFF' };
 
-const iconStyle = {
-    fontSize: '1.5rem',
-    marginBottom: '5px',
-    color: '#fff',
-};
-
-const featuresStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '8px',
-    marginBottom: '20px',
-};
+const featuresStyle = { display: 'flex', flexDirection: 'column', gap: '5px', marginBottom: '15px' };
 
 const featureItemStyle = {
     display: 'flex',
     alignItems: 'center',
-    gap: '8px',
+    gap: '5px',
     fontSize: '0.9rem',
     color: '#ccc',
 };
 
-const featureIconStyle = {
-    fontSize: '1.2rem',
-    color: '#fff',
-};
+const featureIconStyle = { fontSize: '1rem', color: '#fff' };
 
 const detailsButtonStyle = {
     width: '100%',
@@ -238,7 +211,7 @@ const detailsButtonStyle = {
     borderRadius: '5px',
     cursor: 'pointer',
     textAlign: 'center',
-    transition: 'background-color 0.3s ease, color 0.3s ease',
+    transition: 'background-color 0.3s ease-in-out, color 0.3s ease-in-out',
 };
 
 export default CarCard;

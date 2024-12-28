@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { FaSearch } from 'react-icons/fa';
 import { sendFilterAnalytics } from '@/components/analytics';
 
-const SedanPage = () => {
+const accessoryPage = () => {
     const [cars, setCars] = useState([]);
     const [filters, setFilters] = useState({
         search: '',
@@ -114,14 +114,23 @@ const SedanPage = () => {
                     </div>
                     <div style={carGridStyle}>
                         {cars.length > 0 ? (
-                            cars.map((car) => <CarCard key={car._id} car={car} />)
+                            cars.map((car) => (
+                                <CarCard
+                                    key={car._id}
+                                    car={car}
+                                    showDetails={false}  // Hide Specifications and Features
+                                    showFuelTag={false}  // Hide Fuel Tag
+                                />
+                            ))
                         ) : (
                             <p style={noCarsTextStyle}>No accessories found matching your filters.</p>
                         )}
                     </div>
+
                 </div>
             </div>
         </div>
+        //</div >
     );
 };
 
@@ -214,4 +223,4 @@ const dividerAboveTitleStyle = {
     border: 'none',
 };
 
-export default SedanPage;
+export default accessoryPage;

@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
-
-const FilterAnalyticsSchema = new mongoose.Schema({
-    filters: { type: Object, required: true }, // JSON object of filter conditions
-    count: { type: Number, default: 1 },       // Number of times the filter was applied
-    createdAt: { type: Date, default: Date.now },
+const filterAnalyticsSchema = new mongoose.Schema({
+    filters: { type: Map, of: String }, // Assuming filters are stored as key-value pairs
+    count: { type: Number, default: 0 },
+    timestamp: { type: Date, default: Date.now }, // Add timestamp field
 });
 
-module.exports = mongoose.model('FilterAnalytics', FilterAnalyticsSchema);
+module.exports = mongoose.model('FilterAnalytics', filterAnalyticsSchema);
