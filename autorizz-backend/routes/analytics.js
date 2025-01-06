@@ -4,6 +4,8 @@ const router = express.Router();
 const HoverAnalytics = require('../models/HoverAnalytics');
 const FilterAnalytics = require('../models/FilterAnalytics');
 const Car = require('../models/Car');
+const { authenticateUser } = require('../middlewares/authenticateUser');
+const CartAnalytics = require('../models/CartAnalytics');
 
 
 // Existing hover analytics route
@@ -203,6 +205,27 @@ router.get('/hover/zero', async (req, res) => {
         res.status(500).json({ message: 'Failed to fetch data.' });
     }
 });
+
+
+router.post('/add-to-cart', authenticateUser, async (req, res) => {
+    const { carId } = req.body;
+
+    if (!carId) {
+        return res.status(400).json({ message: 'Car ID is required' });
+    }
+
+    try {
+        // Use userId from the authenticated user
+        const userId = req.user.userId;
+
+        await CartAnalytics.create({ carId, userId });
+        res.status(201).json({ message: 'Add to cart action logged successfully' });
+    } catch (error) {
+        console.error('Error logging add-to-cart action:', error);
+        res.status(500).json({ message: 'Failed to log action', error });
+    }
+});
+
 
 
 

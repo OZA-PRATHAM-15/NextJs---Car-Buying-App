@@ -1,0 +1,161 @@
+.mainSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100vw;
+    height: calc(100vh - 70px); /* Account for header height */
+    background-color: #000000;
+    color: #ffffff;
+    overflow: hidden; /* Disable scrolling */
+}
+
+/* Left Section */
+.left {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.carImage {
+    width: 90%; /* Increased width */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.7); /* Stronger shadow */
+}
+
+/* Description */
+.description {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 1.1rem; /* Slightly larger font */
+    color: #ddd;
+}
+
+/* Right Section */
+.right {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 25px; /* Add spacing between sections */
+}
+
+/* Car Name */
+.carName {
+    margin-bottom: 20px; /* Add spacing below car name */
+    font-size: 2rem; /* Larger font for car name */
+    font-weight: bold;
+    color: #ffffff;
+    text-align: left;
+}
+
+/* Specifications, Features, Colors, Attachments */
+.specifications,
+.features,
+.colors,
+.attachments {
+    margin-bottom: 20px;
+}
+
+.specifications h3,
+.features h3,
+.colors h3,
+.attachments h3 {
+    font-size: 1.4rem;
+    color: #ff5733;
+    margin-bottom: 10px;
+}
+
+.specifications ul,
+.features ul,
+.attachments ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.specifications li,
+.features li,
+.attachments li {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: #ccc;
+}
+
+/* Colors Section */
+.colors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.colorSwatch {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.colorSwatch.selected {
+    border-color: #ff5733;
+}
+
+.colorSwatch:hover {
+    transform: scale(1.15);
+}
+
+/* Price and Buttons */
+.priceActions {
+    margin-top: 20px;
+    text-align: left; /* Align with other sections */
+}
+
+.priceActions h2 {
+    font-size: 2.5rem; /* Larger price display */
+    color: #ff5733;
+}
+
+.priceActions p {
+    font-size: 1.2rem;
+    color: #ccc;
+}
+
+.addToCart,
+.buyNow {
+    margin: 10px 10px 0 0; /* Adjust button spacing */
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.addToCart {
+    background-color: #007bff;
+    color: white;
+}
+
+.addToCart:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}
+
+.buyNow {
+    background-color: #28a745;
+    color: white;
+}
+
+.buyNow:hover {
+    background-color: #1e7e34;
+    transform: scale(1.1);
+}

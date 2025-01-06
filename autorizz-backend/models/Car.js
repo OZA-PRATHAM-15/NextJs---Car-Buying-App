@@ -36,6 +36,14 @@ const carSchema = new mongoose.Schema({
         fuel_type: String,
         transmission: String,
     },
+    colors: [
+        {
+            name: String, // Name of the color (e.g., "Red")
+            image: String, // URL to the image of the car in this color
+        }
+    ],
+    // Added field for color options
+    attachments: [String],  // Added field for attachments
 });
 
 const Car = mongoose.model('Car', carSchema);

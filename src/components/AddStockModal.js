@@ -28,6 +28,7 @@ const AddStockModal = ({ isOpen, onClose, onAddStock }) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
                 body: JSON.stringify({
                     ...formData,
@@ -117,6 +118,7 @@ const AddStockModal = ({ isOpen, onClose, onAddStock }) => {
                                 <option value="sedan">Sedan</option>
                                 <option value="suv">SUV</option>
                                 <option value="accessory">Accessory</option>
+                                <option value="sports">Sports</option>
                             </select>
                         </div>
                         <div style={formGroupStyle}>

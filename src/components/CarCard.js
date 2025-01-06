@@ -11,8 +11,9 @@ import {
     FaWrench,
     FaCarSide,
 } from 'react-icons/fa';
+import Link from 'next/link';
 
-const CarCard = ({ car, showDetails = true, showFuelTag = true }) => {
+const CarCard = ({ car, showDetails = true, showFuelTag = true, userId = null }) => {
     const [hoverTimeout, setHoverTimeout] = useState(null);
 
     const handleMouseEnter = () => {
@@ -35,6 +36,33 @@ const CarCard = ({ car, showDetails = true, showFuelTag = true }) => {
             });
         } catch (error) {
             console.error('Error sending hover analytics:', error);
+        }
+    };
+
+    const logVisit = async () => {
+        try {
+            const token = localStorage.getItem('token'); // Retrieve token from localStorage
+            let userId = null;
+
+            if (token) {
+                const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode JWT
+                userId = decodedToken.userId; // Extract userId
+            }
+
+            const response = await fetch('http://localhost:5000/api/cars/visit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    carId: car._id,
+                    userId: userId || null, // Pass userId if available
+                }),
+            });
+
+            if (!response.ok) {
+                console.error('Failed to log visit:', await response.json());
+            }
+        } catch (error) {
+            console.error('Error logging visit:', error);
         }
     };
 
@@ -102,10 +130,20 @@ const CarCard = ({ car, showDetails = true, showFuelTag = true }) => {
                     </>
                 )}
 
-                <button style={detailsButtonStyle}>
-                    <FaEye style={{ marginRight: '8px' }} />
-                    View Details
-                </button>
+                <Link
+                    href={`/cars/${car._id}`}
+                    legacyBehavior
+                >
+                    <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={detailsButtonStyle}
+                        onClick={logVisit} // Log the visit when user clicks "View Details"
+                    >
+                        <FaEye style={{ marginRight: '8px' }} />
+                        View Details
+                    </a>
+                </Link>
             </div>
         </div>
     );
@@ -117,7 +155,6 @@ const carCardStyle = {
     flexDirection: 'column',
     justifyContent: 'space-between',
     width: '350px',
-    //height: '600px',
     margin: '0px auto',
     borderRadius: '10px',
     background: 'linear-gradient(to bottom, #1a1a1a, #0f0f0f)',

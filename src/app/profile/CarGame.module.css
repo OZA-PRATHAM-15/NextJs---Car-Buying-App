@@ -1,0 +1,49 @@
+.gameContainer {
+    text-align: center;
+    margin-top: 20px;
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    color: white;
+    max-width: 360px;
+    margin: 50px 350px 40px; 
+}
+
+.canvas {
+    border: 2px solid rgb(170, 158, 158);
+    border-radius: 8px;
+    margin: 20px 10;
+    background-color: #444;
+}
+
+.startButton,
+.restartButton,
+.exitButton {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.restartButton {
+    background-color: #ff9800;
+}
+
+.exitButton {
+    background-color: #f44336;
+}
+
+.startButton:hover,
+.restartButton:hover,
+.exitButton:hover {
+    transform: scale(1.1);
+}
+
+.buttons {
+    margin-top: 15px;
+}

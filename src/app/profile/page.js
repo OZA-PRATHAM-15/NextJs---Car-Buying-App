@@ -2,12 +2,17 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { FaHome, FaUser, FaLock, FaSignOutAlt } from 'react-icons/fa';
+import {
+    FaHome, FaUser, FaLock, FaSignOutAlt, FaEnvelope,
+    FaPhone, FaMapMarkerAlt, FaVenusMars, FaCalendar
+} from 'react-icons/fa';
 import styles from './Profile.module.css';
+import CarGame from './CarGame';
 
 const ProfilePage = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [showLogoutModal, setShowLogoutModal] = useState(false); // State to show/hide modal
     const router = useRouter();
 
     useEffect(() => {
@@ -46,7 +51,7 @@ const ProfilePage = () => {
     }, [router]);
 
     const handleUpdateProfile = () => {
-        router.push('/profile/edit'); // Redirect to the Update Profile page
+        router.push('/profile/edit');
     };
 
     const handleDeleteAccount = async () => {
@@ -67,7 +72,7 @@ const ProfilePage = () => {
             if (res.ok) {
                 toast.success('Account deleted successfully');
                 localStorage.removeItem('token');
-                router.push('/register'); // Redirect to the Register page
+                router.push('/register');
             } else {
                 const data = await res.json();
                 toast.error(data.error || 'Failed to delete account.');
@@ -95,8 +100,7 @@ const ProfilePage = () => {
     }
 
     return (
-        <div className={styles.profileModal}>
-            {/* Sidebar Navbar */}
+        <div className={styles.profileContainer}>
             <aside className={styles.sidebar}>
                 <div className={styles.sidebarHeader}>
                     <img
@@ -116,22 +120,21 @@ const ProfilePage = () => {
                     <li onClick={() => handleNavigate('/change-password')}>
                         <FaLock className={styles.icon} /> Change Password
                     </li>
-                    <li onClick={handleLogout}>
+                    <li onClick={() => setShowLogoutModal(true)}> {/* Show modal */}
                         <FaSignOutAlt className={styles.icon} /> Logout
                     </li>
                 </ul>
             </aside>
 
-            {/* Profile Details */}
             <main className={styles.profileContent}>
                 <h2>Account Details</h2>
                 <div className={styles.profileDetails}>
-                    <p><strong>Name:</strong> {user.name}</p>
-                    <p><strong>Email:</strong> {user.email}</p>
-                    <p><strong>Phone:</strong> {user.phoneNumber || 'No phone number'}</p>
-                    <p><strong>Address:</strong> {user.address || 'No address'}</p>
-                    <p><strong>Gender:</strong> {user.gender || 'Gender not specified'}</p>
-                    <p><strong>Member Since:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
+                    <p><FaUser className={styles.detailIcon} /> <strong>Name:</strong> {user.name}</p>
+                    <p><FaEnvelope className={styles.detailIcon} /> <strong>Email:</strong> {user.email}</p>
+                    <p><FaPhone className={styles.detailIcon} /> <strong>Phone:</strong> {user.phoneNumber || 'No phone number'}</p>
+                    <p><FaMapMarkerAlt className={styles.detailIcon} /> <strong>Address:</strong> {user.address || 'No address'}</p>
+                    <p><FaVenusMars className={styles.detailIcon} /> <strong>Gender:</strong> {user.gender || 'Not specified'}</p>
+                    <p><FaCalendar className={styles.detailIcon} /> <strong>Member Since:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
                 </div>
                 <div className={styles.actionButtons}>
                     <button className={styles.updateButton} onClick={handleUpdateProfile}>
@@ -141,7 +144,31 @@ const ProfilePage = () => {
                         Delete Account
                     </button>
                 </div>
+                <CarGame />
             </main>
+
+            {/* Logout Confirmation Modal */}
+            {showLogoutModal && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modal}>
+                        <p>Are you sure you want to log out?</p>
+                        <div className={styles.modalActions}>
+                            <button
+                                className={styles.confirmButton}
+                                onClick={handleLogout}
+                            >
+                                Yes, Log Out
+                            </button>
+                            <button
+                                className={styles.cancelButton}
+                                onClick={() => setShowLogoutModal(false)}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

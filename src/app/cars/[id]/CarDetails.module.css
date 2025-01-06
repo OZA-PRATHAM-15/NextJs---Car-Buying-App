@@ -1,0 +1,299 @@
+/* General Page Layout */
+.page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: relative;
+    background-color: #000; /* Black theme */
+    color: #fff; /* White text */
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #000;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    height: 8%;
+    border-bottom: 1px solid #444;
+}
+
+/* Logo */
+.logoContainer {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 25px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+}
+
+/* Navigation Icons */
+.navIcons {
+    display: flex;
+    gap: 20px;
+}
+
+.icon {
+    color: white;
+    transition: color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+.icon:hover {
+    color: #ccc;
+    transform: scale(1.2);
+}
+
+/* Main Section */
+.mainSection {
+    display: flex;
+    flex: 1;
+    gap: 20px;
+    padding: 2%;
+    height: 92%;
+    box-sizing: border-box;
+    overflow: relative;
+}
+
+/* Left Section */
+.left {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: none; /* Remove the gradient background */
+    padding: 5%;
+    border-radius: 0; /* Remove any borders or shadows */
+    box-shadow: none; /* Remove shadows */
+}
+
+.imageContainer {
+    width: 80%; /* Adjust to make the container wider */
+    max-width: 750px; /* Allow for a larger image */
+    margin: 0 auto; /* Center the container horizontally */
+    aspect-ratio: 16/9; /* Maintain the aspect ratio */
+    overflow: hidden; /* Prevent overflow issues */
+    display: flex; /* Flexbox to center the image */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    background: transparent; /* No visible background */
+}
+
+.carImage {
+    width: 100%; /* Take full width of the container */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Prevent cropping */
+    transition: transform 0.3s ease;
+}
+
+.carImage:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+.description {
+    color: #ddd;
+    font-size: 1rem;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Separator */
+.separator {
+    width: 2px;
+    background-color: #444;
+    border-radius: 5px;
+}
+
+/* Right Section */
+.right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: #000000;
+    padding: 3%;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0);
+    overflow: auto;
+}
+
+.carName {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+/* Dropdown Styling */
+.dropdown {
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #121212; /* Match theme */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Dropdown Header */
+.dropdownHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-bottom: 1px solid #444; /* Divider */
+    padding-bottom: 5px;
+}
+
+/* Icon for Dropdown */
+.dropdownIcon {
+    font-size: 1.2rem;
+    color: #ccc;
+    transition: transform 0.3s ease;
+}
+
+.rotate {
+    transform: rotate(180deg); /* Rotate when open */
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdownContent {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+/* Dropdown Content (Visible when open) */
+.dropdown.open .dropdownContent {
+    max-height: 500px; /* Set this to a value larger than your content height */
+    opacity: 1;
+}
+
+/* Individual Dropdown Items */
+.specItem,
+.featureItem {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: #ccc;
+    padding: 10px;
+    gap: 10px;
+    border-bottom: 1px solid #444; /* Add spacing between items */
+}
+
+.specIcon,
+.featureIcon {
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+/* Colors */
+.colors {
+    display: flex;
+    gap: 10px;
+}
+
+.colorSwatch {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.colorSwatch:hover {
+    transform: scale(1.1);
+}
+
+.colorSwatch.selected {
+    border: 2px solid #fff;
+}
+
+/* Recommendations Section */
+.recommendationsSection {
+    margin-top: 30px;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.recommendationsContainer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.recommendationCard {
+    background-color: #222;
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    color: white;
+    flex: 0 0 200px;
+}
+
+.recommendationImage {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.recommendationName {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.recommendationPrice {
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+/* Buttons */
+.addToCart,
+.buyNow,
+.exploreButton {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    background-color: #fff;
+    color: #000;
+    transition: transform 0.2s ease;
+}
+
+.addToCart:hover,
+.buyNow:hover,
+.exploreButton:hover {
+    transform: scale(1.1);
+}
+.inStock {
+    color: green;
+    font-weight: bold;
+}
+
+.outOfStock {
+    color: red;
+    font-weight: bold;
+}

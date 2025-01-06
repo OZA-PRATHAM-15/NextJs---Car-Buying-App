@@ -11,7 +11,20 @@ const { authenticateUser } = require('../middlewares/authenticateUser'); // Adju
 
 // JWT_SECRET: Fetch it from environment or fallback (but better to use only env in production)
 const JWT_SECRET = process.env.JWT_SECRET || 'your_hardcoded_jwt_secret_key';
+const roleCheck = (role) => (req, res, next) => {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ error: 'Unauthorized: No token provided' });
 
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+        if (decoded.role !== role) {
+            return res.status(403).json({ error: 'Forbidden: You do not have the correct role' });
+        }
+        next(); // User has the correct role
+    } catch (error) {
+        return res.status(403).json({ error: 'Invalid token' });
+    }
+};
 
 // Register route
 router.post('/register', async (req, res) => {
@@ -153,22 +166,6 @@ router.delete('/delete-account', async (req, res) => {
         return res.status(403).json({ error: 'Invalid token' });
     }
 });
-
-
-const roleCheck = (role) => (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) return res.status(401).json({ error: 'Unauthorized: No token provided' });
-
-    try {
-        const decoded = jwt.verify(token, JWT_SECRET);
-        if (decoded.role !== role) {
-            return res.status(403).json({ error: 'Forbidden: You do not have the correct role' });
-        }
-        next(); // User has the correct role
-    } catch (error) {
-        return res.status(403).json({ error: 'Invalid token' });
-    }
-};
 
 // Example of applying roleCheck to protect Admin-only routes
 router.get('/admin-only', roleCheck('Admin'), (req, res) => {

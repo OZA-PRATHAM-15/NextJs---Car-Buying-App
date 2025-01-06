@@ -1,0 +1,100 @@
+/* Navbar Styles */
+/* Navbar Styling */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: transparent; /* Transparent background */
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+}
+
+/* Logo Section */
+.logo img {
+    height: 30px; /* Reduce the height for a smaller logo */
+    width: 170px;  /* Maintain aspect ratio */
+    cursor: pointer;
+    transition: transform 0.3s ease; /* Add a hover effect for better interactivity */
+}
+
+.logo img:hover {
+    transform: scale(1.1); /* Slight zoom-in effect on hover */
+}
+
+/* Car Name Section */
+.carName h1 {
+    font-size: 24px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* Auth Section */
+.auth {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Icons Styling */
+.icons .icon {
+    color: white;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+}
+
+.icons .icon:hover {
+    color: #ff5733; /* Highlight color for icons */
+}
+
+/* Login/Register Text */
+.authText {
+    font-size: 18px;
+    margin-left: 10px;
+    padding: 8px 16px;
+    border: none;
+    color: white;
+    position: relative;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+}
+
+
+
+/* Underline Effect on Hover */
+.authText::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 50%;
+    background-color: white;
+    transition: width 0.3s ease, left 0.3s ease; /* Smooth transition for both width and position */
+}
+
+.authText:hover::after {
+    width: 100%;
+    left: 0;  /* Full underline width on hover */
+}
+
+
+/* Icons */
+.icons {
+    display: flex;
+    gap: 20px;
+}
+
+.icon {
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.icon:hover {
+    transform: scale(1.1);
+}

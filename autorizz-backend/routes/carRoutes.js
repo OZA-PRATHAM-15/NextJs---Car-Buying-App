@@ -3,6 +3,8 @@ const router = express.Router();
 const Car = require('../models/Car');
 const HoverAnalytics = require('../models/HoverAnalytics');
 const FilterAnalytics = require('../models/FilterAnalytics');
+const { authenticateUser, roleCheck } = require('../middlewares/authenticateUser');
+const CarVisitAnalytics = require('../models/CarVisitAnalytics');
 
 // Get all cars with filters
 router.get('/', async (req, res) => {
@@ -72,8 +74,8 @@ router.get('/type/:type', async (req, res) => {
 
 
 // Add new car
-router.post('/', async (req, res) => {
-    const { name, description, image, price, type, available, engine, horsepower, fuel_type, transmission } = req.body;
+router.post('/', authenticateUser, roleCheck('Admin'), async (req, res) => {
+    const { name, description, image, price, type } = req.body;
 
     if (!name || !description || !image || !price || !type) {
         return res.status(400).json({ message: 'Missing required fields' });
@@ -86,8 +88,7 @@ router.post('/', async (req, res) => {
             image,
             price,
             type,
-            available,
-            specifications: { engine, horsepower, fuel_type, transmission },
+            available: true,
         });
 
         const savedCar = await newCar.save();
@@ -96,6 +97,7 @@ router.post('/', async (req, res) => {
         res.status(500).json({ message: 'Error adding new car', error });
     }
 });
+
 
 // Delete car
 router.delete('/:id', async (req, res) => {
@@ -145,5 +147,68 @@ router.post('/filter', async (req, res) => {
         res.status(500).json({ message: 'Failed to log filter event', error });
     }
 });
+
+router.get('/recommendations', async (req, res) => {
+    const { type, minPrice, maxPrice } = req.query;
+
+    try {
+        // Build the filter object
+        const filter = {};
+
+        if (type) filter.type = type; // Ensure type filtering
+        if (minPrice) filter.price = { $gte: Number(minPrice) }; // Apply minimum price filter
+        if (maxPrice) filter.price = { ...filter.price, $lte: Number(maxPrice) }; // Apply maximum price filter
+
+        // Fetch recommendations from the database
+        const recommendations = await Car.find(filter).limit(10);
+
+        if (!recommendations || recommendations.length === 0) {
+            return res.status(404).json({ message: 'No recommendations found for the specified criteria.' });
+        }
+
+        res.status(200).json(recommendations); // Return the filtered recommendations
+    } catch (error) {
+        console.error('Error fetching recommendations:', error.message);
+        res.status(500).json({ message: 'Error fetching recommendations', error });
+    }
+});
+
+
+
+
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const car = await Car.findById(id);
+
+        if (!car) {
+            return res.status(404).json({ message: 'Car not found' });
+        }
+
+        res.status(200).json(car);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching car details', error });
+    }
+});
+
+
+
+// Log car visit
+router.post('/visit', async (req, res) => {
+    const { carId, userId } = req.body;
+    if (!carId) {
+        return res.status(400).json({ message: 'Car ID is required' });
+    }
+    try {
+        const visit = await CarVisitAnalytics.create({ carId, userId });
+        res.status(201).json({ message: 'Visit logged successfully', visit });
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to log visit', error });
+    }
+});
+
+
+
 
 module.exports = router;

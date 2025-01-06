@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { FaCarSide, FaSearch } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import AddStockModal from './AddStockModal';
+import jwt_decode from 'jwt-decode';
 
 const ManageStocks = () => {
     const [cars, setCars] = useState([]);
@@ -10,17 +11,34 @@ const ManageStocks = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [userRole, setUserRole] = useState(''); // State to store the user role
+    const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
         fetchUserRole();
         fetchCars();
     }, []);
+    const checkUserRole = () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            toast.error('No token found. Please log in.');
+            return;
+        }
+
+        try {
+            const decodedToken = jwt_decode(token); // Decode the token
+            setIsAdmin(decodedToken.role === 'Admin'); // Check if the role is Admin
+        } catch (error) {
+            console.error('Error decoding token:', error);
+            toast.error('Invalid token. Please log in again.');
+        }
+    };
 
     // Fetch the role of the logged-in user
     const fetchUserRole = async () => {
         try {
-            const res = await fetch('http://localhost:5000/api/user'); // Replace with your API endpoint for user info
+            const res = await fetch('http://localhost:5000/api/cars'); // Replace with your API endpoint for user info
             const data = await res.json();
+            console.log('Fetched user role:', data.role);
             setUserRole(data.role); // Backend should return { role: "admin" or "agent" }
         } catch (error) {
             console.error('Error fetching user role:', error);
@@ -81,6 +99,34 @@ const ManageStocks = () => {
             car.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
             car.description.toLowerCase().includes(searchQuery.toLowerCase())
     );
+    const handleAddStock = async (newCar) => {
+        try {
+            const res = await fetch('http://localhost:5000/api/cars', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+                body: JSON.stringify(newCar),
+            });
+
+            if (!res.ok) {
+                if (res.status === 403) {
+                    throw new Error('You do not have permission to perform this action.');
+                }
+                throw new Error('Failed to add stock.');
+            }
+
+            const addedCar = await res.json();
+            setCars((prev) => [...prev, addedCar]);
+            toast.success('Car added successfully!');
+        } catch (error) {
+            console.error('Error adding stock:', error);
+            toast.error(error.message || 'Error adding stock.');
+        } finally {
+            setIsModalOpen(false);
+        }
+    };
 
     return (
         <div style={containerStyle}>
@@ -115,14 +161,16 @@ const ManageStocks = () => {
                         />
                     </div>
                     {/* Add Stock Button (Visible Only for Admins) */}
-                    {userRole === 'admin' && (
-                        <button
-                            style={addButtonStyle}
-                            onClick={() => setIsModalOpen(true)}
-                        >
-                            Add Stock
-                        </button>
-                    )}
+
+
+                    <button
+                        style={addButtonStyle}
+                        onClick={() => setIsModalOpen(true)}
+                    >
+                        Add Stock
+                    </button>
+
+
                 </div>
 
                 {/* Car Cards Section */}
@@ -184,7 +232,7 @@ const ManageStocks = () => {
             <AddStockModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                onAddStock={fetchCars} // Fetch updated cars after adding a new stock
+                onAddStock={handleAddStock} // Fetch updated cars after adding a new stock
             />
         </div>
     );
