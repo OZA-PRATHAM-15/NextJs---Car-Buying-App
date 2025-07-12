@@ -3,13 +3,12 @@
     justify-content: space-between;
     align-items: flex-start;
     width: 100vw;
-    height: calc(100vh - 70px); /* Account for header height */
+    height: calc(100vh - 70px);
     background-color: #000000;
     color: #ffffff;
-    overflow: hidden; /* Disable scrolling */
+    overflow: hidden; 
 }
 
-/* Left Section */
 .left {
     flex: 1;
     padding: 20px;
@@ -20,41 +19,39 @@
 }
 
 .carImage {
-    width: 90%; /* Increased width */
-    height: auto; /* Maintain aspect ratio */
+    width: 90%;
+    height: auto; 
     object-fit: contain;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.7); /* Stronger shadow */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.7); 
 }
 
-/* Description */
+
 .description {
     margin-top: 15px;
     text-align: center;
-    font-size: 1.1rem; /* Slightly larger font */
+    font-size: 1.1rem;
     color: #ddd;
 }
 
-/* Right Section */
 .right {
     flex: 1;
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 25px; /* Add spacing between sections */
+    gap: 25px; 
 }
 
-/* Car Name */
 .carName {
-    margin-bottom: 20px; /* Add spacing below car name */
-    font-size: 2rem; /* Larger font for car name */
+    margin-bottom: 20px; 
+    font-size: 2rem; 
     font-weight: bold;
     color: #ffffff;
     text-align: left;
 }
 
-/* Specifications, Features, Colors, Attachments */
+
 .specifications,
 .features,
 .colors,
@@ -87,7 +84,6 @@
     color: #ccc;
 }
 
-/* Colors Section */
 .colors {
     display: flex;
     flex-wrap: wrap;
@@ -112,14 +108,13 @@
     transform: scale(1.15);
 }
 
-/* Price and Buttons */
 .priceActions {
     margin-top: 20px;
-    text-align: left; /* Align with other sections */
+    text-align: left; 
 }
 
 .priceActions h2 {
-    font-size: 2.5rem; /* Larger price display */
+    font-size: 2.5rem;
     color: #ff5733;
 }
 
@@ -130,7 +125,7 @@
 
 .addToCart,
 .buyNow {
-    margin: 10px 10px 0 0; /* Adjust button spacing */
+    margin: 10px 10px 20px 10px;
     padding: 12px 25px;
     font-size: 1rem;
     font-weight: bold;

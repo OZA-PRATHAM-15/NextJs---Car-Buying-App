@@ -167,6 +167,14 @@
     text-align: center;
 }
 
+.typing-indicator {
+  font-style: italic;
+  font-size: 0.9rem;
+  color: gray;
+  margin-top: 4px;
+  padding-left: 8px;
+}
+
 /* Animation for New Messages */
 @keyframes fadeIn {
     from {

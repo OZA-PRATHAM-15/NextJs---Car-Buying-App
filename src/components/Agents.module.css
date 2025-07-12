@@ -1,4 +1,3 @@
-/* General header styling */
 .header {
     display: flex;
     flex-wrap: wrap;
@@ -14,7 +13,6 @@
     align-items: center;
 }
 
-/* Search bar styling */
 .searchBar {
     padding: 10px;
     border-radius: 20px;
@@ -27,7 +25,6 @@
     border-color: #007bff;
 }
 
-/* Add Agent button styling */
 .addAgentButton {
     display: flex;
     align-items: center;
@@ -46,7 +43,6 @@
     background: linear-gradient(to right, #0056b3, #003f7f);
 }
 
-/* Agents grid */
 .agentsGrid {
     display: flex;
     flex-wrap: wrap;
@@ -54,8 +50,6 @@
     margin-top: 20px;
 }
 
-/* Agent card */
-/* Agent card */
 .agentCard {
     background: linear-gradient(to right, #1e1e1e, #1a1a1a);
     color: white;
@@ -66,8 +60,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 10px; /* Ensure consistent spacing between elements */
-    transition: transform 0.2s ease, box-shadow 0.3s ease; /* For hover effect */
+    gap: 10px; 
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .agentCard:hover {
@@ -77,17 +71,17 @@
 
 .agentCard h3 {
     font-size: 1.5rem;
-    margin: 0; /* Remove unnecessary margin */
+    margin: 0; 
     font-weight: bold;
     color: #ffffff;
-    text-align: left; /* Align text to the left */
+    text-align: left; 
 }
 
 .agentCard p {
     font-size: 1rem;
-    margin: 0; /* Remove unnecessary margin */
+    margin: 0; 
     color: #aaaaaa;
-    text-align: left; /* Align email text to the left */
+    text-align: left;
 }
 
 .agentCard p span {
@@ -95,15 +89,13 @@
     color: #ffffff;
 }
 
-/* Actions (Update and Delete buttons) */
 .actions {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px; /* Add space between content and buttons */
+    margin-top: 10px;
 }
 
 
-/* Buttons */
 .updateButton,
 .deleteButton {
     display: flex;
@@ -137,7 +129,6 @@
     transform: scale(1.05);
 }
 
-/* Modal */
 .modalOverlay {
     position: fixed;
     top: 0;

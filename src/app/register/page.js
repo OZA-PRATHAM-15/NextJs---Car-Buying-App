@@ -1,8 +1,8 @@
-import React from 'react';
-import Register from '../../components/Register'; // Adjust path if necessary
+import React from "react";
+import Register from "../../components/Register";
 
 const RegisterPage = () => {
-    return <Register />;
+  return <Register />;
 };
 
 export default RegisterPage;

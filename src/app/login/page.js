@@ -1,8 +1,8 @@
-import React from 'react';
-import Login from '../../components/Login'; // Ensure correct relative path
+import React from "react";
+import Login from "../../components/Login";
 
 const LoginPage = () => {
-    return <Login />;
+  return <Login />;
 };
 
 export default LoginPage;

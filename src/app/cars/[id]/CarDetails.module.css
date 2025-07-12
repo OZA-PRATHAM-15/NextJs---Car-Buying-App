@@ -1,16 +1,14 @@
-/* General Page Layout */
 .page {
     display: flex;
     flex-direction: column;
     height: 100vh;
     overflow: relative;
-    background-color: #000; /* Black theme */
-    color: #fff; /* White text */
+    background-color: #000;
+    color: #fff;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
 
-/* Navbar */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -25,7 +23,6 @@
     border-bottom: 1px solid #444;
 }
 
-/* Logo */
 .logoContainer {
     display: flex;
     align-items: center;
@@ -41,7 +38,6 @@
     transform: scale(1.1);
 }
 
-/* Navigation Icons */
 .navIcons {
     display: flex;
     gap: 20px;
@@ -58,7 +54,6 @@
     transform: scale(1.2);
 }
 
-/* Main Section */
 .mainSection {
     display: flex;
     flex: 1;
@@ -69,40 +64,39 @@
     overflow: relative;
 }
 
-/* Left Section */
 .left {
     flex: 1.5;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: none; /* Remove the gradient background */
+    background: none; 
     padding: 5%;
-    border-radius: 0; /* Remove any borders or shadows */
-    box-shadow: none; /* Remove shadows */
+    border-radius: 0; 
+    box-shadow: none;
 }
 
 .imageContainer {
-    width: 80%; /* Adjust to make the container wider */
-    max-width: 750px; /* Allow for a larger image */
-    margin: 0 auto; /* Center the container horizontally */
-    aspect-ratio: 16/9; /* Maintain the aspect ratio */
-    overflow: hidden; /* Prevent overflow issues */
-    display: flex; /* Flexbox to center the image */
-    align-items: center; /* Center vertically */
-    justify-content: center; /* Center horizontally */
-    background: transparent; /* No visible background */
+    width: 80%; 
+    max-width: 800px;
+    height: 400px;
+    margin: 0 0;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
 }
 
 .carImage {
-    width: 100%; /* Take full width of the container */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: contain; /* Prevent cropping */
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
     transition: transform 0.3s ease;
 }
 
 .carImage:hover {
-    transform: scale(1.05); /* Slight zoom effect on hover */
+    transform: scale(1.05);
 }
 
 .description {
@@ -112,14 +106,12 @@
     text-align: center;
 }
 
-/* Separator */
 .separator {
     width: 2px;
     background-color: #444;
     border-radius: 5px;
 }
 
-/* Right Section */
 .right {
     flex: 1;
     display: flex;
@@ -139,17 +131,15 @@
     margin-bottom: 15px;
 }
 
-/* Dropdown Styling */
 .dropdown {
     margin-bottom: 15px;
     cursor: pointer;
     transition: all 0.3s ease;
-    background-color: #121212; /* Match theme */
+    background-color: #121212;
     padding: 10px;
     border-radius: 5px;
 }
 
-/* Dropdown Header */
 .dropdownHeader {
     display: flex;
     justify-content: space-between;
@@ -157,11 +147,10 @@
     color: #fff;
     font-size: 1.2rem;
     font-weight: bold;
-    border-bottom: 1px solid #444; /* Divider */
+    border-bottom: 1px solid #444;
     padding-bottom: 5px;
 }
 
-/* Icon for Dropdown */
 .dropdownIcon {
     font-size: 1.2rem;
     color: #ccc;
@@ -169,10 +158,9 @@
 }
 
 .rotate {
-    transform: rotate(180deg); /* Rotate when open */
+    transform: rotate(180deg);
 }
 
-/* Dropdown Content (Hidden by Default) */
 .dropdownContent {
     max-height: 0;
     opacity: 0;
@@ -180,13 +168,11 @@
     transition: max-height 0.3s ease, opacity 0.3s ease;
 }
 
-/* Dropdown Content (Visible when open) */
 .dropdown.open .dropdownContent {
-    max-height: 500px; /* Set this to a value larger than your content height */
+    max-height: 500px; 
     opacity: 1;
 }
 
-/* Individual Dropdown Items */
 .specItem,
 .featureItem {
     display: flex;
@@ -195,7 +181,7 @@
     color: #ccc;
     padding: 10px;
     gap: 10px;
-    border-bottom: 1px solid #444; /* Add spacing between items */
+    border-bottom: 1px solid #444;
 }
 
 .specIcon,
@@ -204,7 +190,6 @@
     font-size: 1.2rem;
 }
 
-/* Colors */
 .colors {
     display: flex;
     gap: 10px;
@@ -226,67 +211,94 @@
     border: 2px solid #fff;
 }
 
-/* Recommendations Section */
 .recommendationsSection {
-    margin-top: 30px;
-    padding: 10px 0;
-    text-align: center;
+  margin-top: 30px;
+  padding: 10px 0;
+  text-align: center;
 }
 
 .recommendationsContainer {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    overflow-x: auto;
-    padding-bottom: 10px;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  align-items: center;
 }
 
 .recommendationCard {
-    background-color: #222;
-    border-radius: 15px;
-    padding: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-    text-align: center;
-    color: white;
-    flex: 0 0 200px;
+  display: flex;
+  align-items: center;
+  background-color: #222;
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  color: white;
+  width: 90%;
+  max-width: 400px;
 }
 
 .recommendationImage {
-    width: 100%;
-    border-radius: 10px;
-    margin-bottom: 10px;
+  width: 180px;
+  height: auto;
+  border-radius: 10px;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+
+.recommendationDetails {
+  flex-grow: 1;
+  text-align: left;
 }
 
 .recommendationName {
-    font-size: 1rem;
-    font-weight: bold;
-    margin-bottom: 5px;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .recommendationPrice {
-    color: #fff;
-    font-size: 1rem;
-    margin-bottom: 10px;
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 8px;
 }
 
-/* Buttons */
+.buttons {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
 .addToCart,
-.buyNow,
-.exploreButton {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
+.buyNow {
+    padding: 14px 28px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    border-radius: 12px;
     cursor: pointer;
-    margin-top: 10px;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+    border: none;
+}
+
+.addToCart {
     background-color: #fff;
     color: #000;
-    transition: transform 0.2s ease;
 }
 
-.addToCart:hover,
-.buyNow:hover,
-.exploreButton:hover {
-    transform: scale(1.1);
+.buyNow {
+    background-color: #0070f3;
+    color: #fff;
+}
+
+.addToCart:hover {
+    transform: scale(1.05);
+    background-color: #f0f0f0;
+}
+
+.buyNow:hover {
+    transform: scale(1.05);
+    background-color: #005ad1;
 }
 .inStock {
     color: green;
@@ -296,4 +308,29 @@
 .outOfStock {
     color: red;
     font-weight: bold;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  text-align: center;
+  gap: 12px;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #999;
+  border-top: 5px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

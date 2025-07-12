@@ -1,6 +1,5 @@
 from utils.db import get_database
 
-# Handle top products query
 def handle_top_products():
     db = get_database()
     most_hovered = db["hoveranalytics"].aggregate([
@@ -21,7 +20,6 @@ def handle_top_products():
         [f"{i+1}. {item['carName']} ({item['totalHoverCount']} hovers)" for i, item in enumerate(most_hovered)]
     )
 
-# Handle hover overview query
 def handle_hover_overview():
     db = get_database()
     total_hovers = db["hoveranalytics"].aggregate([
@@ -30,7 +28,6 @@ def handle_hover_overview():
     total = next(total_hovers, {"total": 0})["total"]
     return f"Total hovers recorded: {total}"
 
-# Handle products with zero hovers
 def handle_zero_hovers():
     db = get_database()
     cars_without_hovers = db["cars"].aggregate([
@@ -49,7 +46,6 @@ def handle_zero_hovers():
         return "All products have at least one hover!"
     return f"Products with zero hovers: {', '.join(results)}"
 
-# Handle hover count by category
 def handle_category_hover_count():
     db = get_database()
     category_data = db["hoveranalytics"].aggregate([
@@ -61,16 +57,17 @@ def handle_category_hover_count():
                 "as": "car",
             },
         },
-        { "$unwind": "$car" },
+        {"$unwind": "$car"},
         {
             "$group": {
                 "_id": "$car.type",
-                "totalHoverCount": { "$sum": "$count" },
+                "totalHoverCount": {"$sum": "$count"},
             }
         },
-        { "$sort": { "totalHoverCount": -1 } },
+        {"$sort": {"totalHoverCount": -1}},
     ])
 
+    category_data = list(category_data)
     if not category_data:
         return "No hover data available by category."
     
@@ -78,9 +75,10 @@ def handle_category_hover_count():
         [f"{item['_id']}: {item['totalHoverCount']} hovers" for item in category_data]
     )
 
-# General intent handling function
+def handle_greeting():
+    return "Hello there! How may I help you, master?"
+
 def handle_analytics_query(intent_name, parameters=None):
-    # Map intents to their respective handlers
     intent_handlers = {
         "What are the top products": handle_top_products,
         "Hover Overview": handle_hover_overview,
@@ -88,8 +86,11 @@ def handle_analytics_query(intent_name, parameters=None):
         "Category Hover Count": handle_category_hover_count,
     }
 
-    # Call the respective handler or return a fallback response
-    handler = intent_handlers.get(intent_name)
-    if handler:
-        return handler()
+    if intent_name in intent_handlers:
+        return intent_handlers[intent_name]()
+    
+    greeting_keywords = ["hello", "hi", "hey", "hii"]
+    if any(word in intent_name.lower() for word in greeting_keywords):
+        return handle_greeting()
+
     return "Sorry, I cannot process your request."

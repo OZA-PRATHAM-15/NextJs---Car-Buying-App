@@ -9,11 +9,9 @@ CORS(app)
 @app.route('/bot-api/webhook', methods=['POST'])
 def bot_webhook():
     try:
-        # Parse the incoming payload
         payload = request.get_json()
         print("Request received from frontend:", payload)
 
-        # Ensure 'action' is present
         if 'action' not in payload:
             raise KeyError("'action' field is missing in the payload.")
 
@@ -22,12 +20,10 @@ def bot_webhook():
         user_id = payload.get('userId', 'Unknown User')
 
         if action == "processMessage":
-            # Handle analytics query
             response = handle_analytics_query(message)
             return jsonify({"reply": response})
 
         elif action == "getBotDetails":
-            # Handle bot details request
             bot_details = {
                 "_id": "bot",
                 "name": "Admin Bot",
@@ -35,7 +31,6 @@ def bot_webhook():
             }
             return jsonify(bot_details)
 
-        # Handle unsupported actions
         return jsonify({"error": f"Unsupported action: {action}"}), 400
 
     except KeyError as e:

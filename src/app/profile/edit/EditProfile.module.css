@@ -1,4 +1,3 @@
-/* Centered Modal Layout */
 .editContainer {
     display: flex;
     justify-content: center;
@@ -21,7 +20,6 @@
     margin-bottom: 20px;
 }
 
-/* Form Styling */
 .editForm {
     display: flex;
     flex-direction: column;
@@ -48,7 +46,6 @@
     cursor: not-allowed;
 }
 
-/* Action Buttons */
 .actionButtons {
     display: flex;
     justify-content: space-between;
