@@ -33,12 +33,6 @@ const CarDetailsPage = () => {
     }
   }, [carId]);
 
-  useEffect(() => {
-    if (carDetails) {
-      fetchRecommendations(carDetails.type, carDetails.price);
-    }
-  }, [carDetails, fetchRecommendations]);
-
   const fetchCarDetails = async (id) => {
     try {
       const response = await axiosInstance.get(`/cars/${id}`);
@@ -70,6 +64,12 @@ const CarDetailsPage = () => {
     },
     [carId]
   );
+
+  useEffect(() => {
+    if (carDetails) {
+      fetchRecommendations(carDetails.type, carDetails.price);
+    }
+  }, [carDetails, fetchRecommendations]);
 
   const toggleDropdown = (section) => {
     setDropdownStates((prevState) => ({
