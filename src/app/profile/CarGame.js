@@ -147,7 +147,7 @@ const CarGame = () => {
       cancelAnimationFrame(animationFrameId);
       clearInterval(obstacleIntervalId);
     };
-  }, [gameStarted, obstacleInterval]);
+  }, [gameStarted, obstacleInterval, obstacleSpeed, gameOver]);
 
   return (
     <div className={styles.gameContainer}>
@@ -189,7 +189,7 @@ const CarGame = () => {
           className={styles.startButton}
           onClick={() => setGameStarted(true)}
         >
-          Let's Play
+          Let&apos;s Play
         </button>
       )}
     </div>

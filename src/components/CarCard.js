@@ -13,6 +13,7 @@ import {
 } from "react-icons/fa";
 import Link from "next/link";
 import axiosInstance from "@/utils/api";
+import Image from "next/image";
 
 const CarCard = ({
   car,
@@ -78,7 +79,7 @@ const CarCard = ({
       onMouseLeave={handleMouseLeave}
     >
       <div style={{ position: "relative", overflow: "hidden" }}>
-        <img
+        <Image
           src={car.image}
           alt={car.name}
           style={{ ...imageStyle, filter: "brightness(0.9) contrast(1.1)" }}

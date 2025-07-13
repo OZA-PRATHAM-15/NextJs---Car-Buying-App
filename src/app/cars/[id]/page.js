@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { FiUser, FiShoppingCart } from "react-icons/fi";
 import { FaGasPump, FaCogs, FaTachometerAlt, FaStar } from "react-icons/fa";
 import styles from "./CarDetails.module.css";
 import axiosInstance from "@/utils/api";
+import Image from "next/image";
 
 const CarDetailsPage = () => {
   const { id: carId } = useParams();
@@ -36,7 +37,7 @@ const CarDetailsPage = () => {
     if (carDetails) {
       fetchRecommendations(carDetails.type, carDetails.price);
     }
-  }, [carDetails]);
+  }, [carDetails, fetchRecommendations]);
 
   const fetchCarDetails = async (id) => {
     try {
@@ -51,21 +52,24 @@ const CarDetailsPage = () => {
     }
   };
 
-  const fetchRecommendations = async (type, price) => {
-    try {
-      const response = await axiosInstance.get(
-        `/cars/recommendations?type=${type}&minPrice=${price - 5000}&maxPrice=${
-          price + 5000
-        }`
-      );
-      const data = response.data;
-      setRecommendations(
-        data.filter((car) => String(car.id || car._id) !== String(carId))
-      );
-    } catch (err) {
-      console.error("Error fetching recommendations:", err.message);
-    }
-  };
+  const fetchRecommendations = useCallback(
+    async (type, price) => {
+      try {
+        const response = await axiosInstance.get(
+          `/cars/recommendations?type=${type}&minPrice=${
+            price - 5000
+          }&maxPrice=${price + 5000}`
+        );
+        const data = response.data;
+        setRecommendations(
+          data.filter((car) => String(car.id || car._id) !== String(carId))
+        );
+      } catch (err) {
+        console.error("Error fetching recommendations:", err.message);
+      }
+    },
+    [carId]
+  );
 
   const toggleDropdown = (section) => {
     setDropdownStates((prevState) => ({
@@ -119,7 +123,13 @@ const CarDetailsPage = () => {
       <header className={styles.navbar}>
         <div className={styles.logoContainer}>
           <Link href="/">
-            <img src="/logo.png" alt="Autorizz Logo" className={styles.logo} />
+            <Image
+              src="/logo.png"
+              alt="Autorizz Logo"
+              className={styles.logo}
+              width={150}
+              height={40}
+            />
           </Link>
         </div>
         <div className={styles.navIcons}>
@@ -135,10 +145,12 @@ const CarDetailsPage = () => {
       <div className={styles.mainSection}>
         <div className={styles.left}>
           <div className={styles.imageContainer}>
-            <img
+            <Image
               src={selectedColor || image}
               alt="Car"
               className={styles.carImage}
+              width={500}
+              height={300}
             />
           </div>
           <p className={styles.description}>{description}</p>
@@ -259,10 +271,12 @@ const CarDetailsPage = () => {
           {recommendations.length > 0 ? (
             recommendations.map((car) => (
               <div key={car.id} className={styles.recommendationCard}>
-                <img
+                <Image
                   src={car.image}
                   alt={car.name}
                   className={styles.recommendationImage}
+                  width={500}
+                  height={300}
                 />
                 <div className={styles.recommendationDetails}>
                   <h3 className={styles.recommendationName}>{car.name}</h3>

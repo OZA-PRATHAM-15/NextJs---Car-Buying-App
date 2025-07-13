@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { FiUser, FiShoppingCart } from "react-icons/fi";
 import styles from "./Header.module.css";
+import Image from "next/image";
 
 const Header = ({ carName }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -17,7 +18,7 @@ const Header = ({ carName }) => {
     <header className={styles.navbar}>
       <div className={styles.logo}>
         <Link href="/">
-          <img src="/logo.png" alt="Autorizz Logo" />
+          <Image src="/logo.png" alt="Autorizz Logo" width={150} height={40} />
         </Link>
       </div>
 

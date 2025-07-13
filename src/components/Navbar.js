@@ -4,6 +4,7 @@ import styles from "./Navbar.module.css";
 import Link from "next/link";
 import { FiUser, FiShoppingCart } from "react-icons/fi";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -37,10 +38,12 @@ const Navbar = () => {
       <div className={styles.navbar}>
         <div className={styles.logo}>
           <Link href="/">
-            <img
+            <Image
               src="/logo.png"
               alt="Autorizz Logo"
               style={{ cursor: "pointer" }}
+              width={100}
+              height={50}
             />
           </Link>
         </div>

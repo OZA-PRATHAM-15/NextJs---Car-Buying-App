@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import AddStockModal from "./AddStockModal";
 import { jwtDecode } from "jwt-decode";
 import axiosInstance from "@/utils/api";
+import Image from "next/image";
 
 const ManageStocks = () => {
   const [cars, setCars] = useState([]);
@@ -27,7 +28,6 @@ const ManageStocks = () => {
 
     try {
       const decodedToken = jwtDecode(token);
-      console.log("Decoded JWT:", decodedToken);
       if (decodedToken?.role === "Admin") {
         setIsAdmin(true);
       } else {
@@ -143,7 +143,7 @@ const ManageStocks = () => {
           {filteredCars.length > 0 ? (
             filteredCars.map((car) => (
               <div key={car._id} style={carCardStyle}>
-                <img
+                <Image
                   src={car.image}
                   alt={car.name}
                   style={{

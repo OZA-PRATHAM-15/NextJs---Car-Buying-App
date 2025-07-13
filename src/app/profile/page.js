@@ -16,6 +16,7 @@ import {
 import styles from "./Profile.module.css";
 import CarGame from "./CarGame";
 import axiosInstance from "@/utils/api";
+import Image from "next/image";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -98,10 +99,12 @@ const ProfilePage = () => {
     <div className={styles.profileContainer}>
       <aside className={styles.sidebar}>
         <div className={styles.sidebarHeader}>
-          <img
+          <Image
             src="https://via.placeholder.com/100"
             alt="Profile"
             className={styles.sidebarProfileImage}
+            width={100}
+            height={100}
           />
           <h3>{user.name}</h3>
         </div>

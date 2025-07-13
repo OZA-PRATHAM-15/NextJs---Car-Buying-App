@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./MainSection.module.css";
 import axiosInstance from "@/utils/api";
+import Image from "next/image";
 
 const MainSection = ({ carId }) => {
   const [carDetails, setCarDetails] = useState(null);
@@ -52,10 +53,12 @@ const MainSection = ({ carId }) => {
   return (
     <div className={styles.mainSection}>
       <div className={styles.left}>
-        <img
+        <Image
           src={selectedColor || image}
           alt="Car"
           className={styles.carImage}
+          width={500}
+          height={300}
         />
         <p className={styles.description}>{description}</p>
       </div>

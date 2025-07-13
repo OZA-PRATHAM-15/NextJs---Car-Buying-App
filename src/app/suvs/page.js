@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import SidebarFilter from "@/components/SidebarFilter";
 import CarCard from "@/components/CarCard";
 import Navbar from "@/components/Navbar";
@@ -19,38 +19,45 @@ const SuvPage = () => {
     transmission: "",
   });
 
+  const fetchCars = useCallback(
+    async (appliedFilters = filters) => {
+      try {
+        const validFilters = Object.fromEntries(
+          Object.entries(appliedFilters).filter(
+            ([key, value]) =>
+              value !== "" &&
+              [
+                "search",
+                "minPrice",
+                "maxPrice",
+                "fuel",
+                "transmission",
+              ].includes(key)
+          )
+        );
+
+        const queryParams = new URLSearchParams(validFilters).toString();
+
+        const res = await axiosInstance.get(`/cars/type/suv?${queryParams}`);
+        const data = res.data;
+
+        if (res.status === 200) {
+          setCars(data);
+        } else {
+          toast.error(data.message || "No cars found matching your filters.");
+          setCars([]);
+        }
+      } catch (error) {
+        console.error("Error fetching cars:", error);
+        toast.error("Failed to fetch cars!");
+      }
+    },
+    [filters]
+  );
+
   useEffect(() => {
     fetchCars();
-  }, []);
-
-  const fetchCars = async (appliedFilters = filters) => {
-    try {
-      const validFilters = Object.fromEntries(
-        Object.entries(appliedFilters).filter(
-          ([key, value]) =>
-            value !== "" &&
-            ["search", "minPrice", "maxPrice", "fuel", "transmission"].includes(
-              key
-            )
-        )
-      );
-
-      const queryParams = new URLSearchParams(validFilters).toString();
-
-      const res = await axiosInstance.get(`/cars/type/suv?${queryParams}`);
-      const data = res.data;
-
-      if (res.status === 200) {
-        setCars(data);
-      } else {
-        toast.error(data.message || "No cars found matching your filters.");
-        setCars([]);
-      }
-    } catch (error) {
-      console.error("Error fetching cars:", error);
-      toast.error("Failed to fetch cars!");
-    }
-  };
+  }, [fetchCars]);
 
   const handleApplyFilters = (appliedFilters) => {
     setFilters(appliedFilters);

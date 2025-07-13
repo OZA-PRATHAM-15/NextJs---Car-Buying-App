@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import SidebarFilter from "@/components/SidebarFilter";
 import CarCard from "@/components/CarCard";
 import Navbar from "@/components/Navbar";
@@ -9,7 +9,7 @@ import { FaSearch } from "react-icons/fa";
 import { sendFilterAnalytics } from "@/components/analytics";
 import axiosInstance from "@/utils/api";
 
-const accessoryPage = () => {
+const AccessoryPage = () => {
   const [cars, setCars] = useState([]);
   const [filters, setFilters] = useState({
     search: "",
@@ -19,31 +19,38 @@ const accessoryPage = () => {
     transmission: "",
   });
 
+  const fetchCars = useCallback(
+    async (appliedFilters = filters) => {
+      try {
+        const validFilters = Object.fromEntries(
+          Object.entries(appliedFilters).filter(
+            ([key, value]) =>
+              value !== "" &&
+              [
+                "search",
+                "minPrice",
+                "maxPrice",
+                "fuel",
+                "transmission",
+              ].includes(key)
+          )
+        );
+        const queryParams = new URLSearchParams(validFilters).toString();
+        const res = await axiosInstance.get(
+          `/cars/type/accessory?${queryParams}`
+        );
+        setCars(res.data);
+      } catch (error) {
+        toast.error(error.response?.data?.message || "Failed to fetch cars!");
+        setCars([]);
+      }
+    },
+    [filters]
+  );
+
   useEffect(() => {
     fetchCars();
-  }, []);
-
-  const fetchCars = async (appliedFilters = filters) => {
-    try {
-      const validFilters = Object.fromEntries(
-        Object.entries(appliedFilters).filter(
-          ([key, value]) =>
-            value !== "" &&
-            ["search", "minPrice", "maxPrice", "fuel", "transmission"].includes(
-              key
-            )
-        )
-      );
-      const queryParams = new URLSearchParams(validFilters).toString();
-      const res = await axiosInstance.get(
-        `/cars/type/accessory?${queryParams}`
-      );
-      setCars(res.data);
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to fetch cars!");
-      setCars([]);
-    }
-  };
+  }, [fetchCars]);
 
   const handleApplyFilters = (appliedFilters) => {
     setFilters(appliedFilters);
@@ -209,4 +216,4 @@ const dividerAboveTitleStyle = {
   border: "none",
 };
 
-export default accessoryPage;
+export default AccessoryPage;

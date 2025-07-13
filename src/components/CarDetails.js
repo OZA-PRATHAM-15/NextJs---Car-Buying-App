@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { FaCartPlus, FaCreditCard } from "react-icons/fa";
 import axiosInstance from "@/utils/api";
+import Image from "next/image";
 
 const CarDetailsPage = () => {
   const [carDetails, setCarDetails] = useState(null);
@@ -59,7 +60,7 @@ const CarDetailsPage = () => {
   if (!carDetails) {
     return (
       <div className="not-found-container">
-        <p>The car you're looking for is not available.</p>
+        <p>The car you&apos;re looking for is not available.</p>
       </div>
     );
   }
@@ -80,7 +81,7 @@ const CarDetailsPage = () => {
 
       <main className="main-content">
         <div className="image-section">
-          <img src={selectedColor} alt={name} />
+          <Image src={selectedColor} alt={name} />
         </div>
         <div className="details-section">
           <div className="colors">
