@@ -82,6 +82,8 @@ const CarCard = ({
         <Image
           src={car.image}
           alt={car.name}
+          width={350}
+          height={200}
           style={{ ...imageStyle, filter: "brightness(0.9) contrast(1.1)" }}
         />
         {showFuelTag && (
